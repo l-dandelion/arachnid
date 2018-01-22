@@ -4,6 +4,8 @@ import (
 	"net/http"
 	"net/http/cookiejar"
 	"time"
+	"crypto/md5"
+	"encoding/hex"
 )
 
 type Request struct {
@@ -79,4 +81,12 @@ func (self *Request) GetCookieJar() *cookiejar.Jar {
 
 func (self *Request) GetDownloaderId() int {
 	return self.DownLoaderId
+}
+
+func (self *Request) GetUnique() string {
+	if self.unique == "" {
+		block := md5.Sum([]byte(self.Spider + self.Rule + self.URL + self.Method + self.PostData))
+		self.unique = hex.EncodeToString(block[:])
+	}
+	return self.unique
 }
