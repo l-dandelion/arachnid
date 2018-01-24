@@ -90,3 +90,6 @@ func (self *Request) GetUnique() string {
 	}
 	return self.unique
 }
+func (self *Request) SetProxy(proxy string) {
+	self.proxy = proxy
+}

@@ -2,6 +2,7 @@ package surfer
 
 import (
 	"crypto/tls"
+	"fmt"
 	"github.com/l-dandelion/arachnid/utils"
 	"io"
 	"net"
@@ -10,7 +11,6 @@ import (
 	"net/url"
 	"strings"
 	"time"
-	"fmt"
 )
 
 type Param struct {
@@ -72,6 +72,8 @@ func NewParam(req Request) (param *Param, err error) {
 
 	if req.GetDialTimeout() < 0 {
 		param.dialTimeout = 0
+	} else {
+		param.dialTimeout = req.GetDialTimeout()
 	}
 
 	param.connTimeout = req.GetConnTimeout()
@@ -160,7 +162,6 @@ func (self *Param) httpRequest() (resp *http.Response, err error) {
 	}
 
 	req.Header = self.header
-
 
 	for i := 0; i <= self.retryTimes; i++ {
 		resp, err = self.client.Do(req)

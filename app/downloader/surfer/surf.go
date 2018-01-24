@@ -10,6 +10,10 @@ import (
 
 type Surf struct{}
 
+func New() Surfer {
+	return &Surf{}
+}
+
 //根据请求下载并返回响应
 func (self *Surf) Download(req Request) (resp *http.Response, err error) {
 	//规范化参数
